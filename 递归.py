@@ -10,6 +10,7 @@ def sum_numbers(num):        #定义函数，加上形参
 
 result = sum_numbers(3)
 print(result)
+print(1)
 
 
 
