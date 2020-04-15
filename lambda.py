@@ -10,7 +10,6 @@ test2 = lambda:100                 #这句lambda没有参数列表。只有返�
 print('lambda测试print(test2)的结果：',test2)               #输出lambda的内存地址
 print('lambda测试print(test2())的结果：',test2())
 
-
 def test3(a,b):
     return a + b
 result = test3(1,3)
@@ -28,7 +27,11 @@ print(test5(2,3))
 print(test5(2,3,200))                 #传入参数的时候也可以替换掉缺省参数
 
 test6 = lambda *args:args             #可变参数,传什么输出什么。
-print(test6(2,3))
+print(test6(2,3,45))
+
+test7 = lambda **kwargs:kwargs        #可变参数，返回键值对dict数据。
+print(test7(name='python',age=20))
+print(test7(呵呵='无语'))
 
 #lambda参数形式的写法和函数一样。
 
