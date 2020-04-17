@@ -12,12 +12,26 @@ print(list(result))      #结果  [2, 3, 4, 5, 6]    这才是我们想要的，
 
 
 #python内置高阶函数之 reduce()
-#reduce(func,lst) ，其中的func函数必须有两个参数.
+#reduce(func,lst) ，其中的func函数必须有两个参数.       ！！！作用：功能函数计算的结果和序列的下一个数据做‘累计’计算。
 import functools   ##想要使用reduce，必须导入functools模块。
 def test2(a,b):
-    return a + b
-result1 = functools.reduce(test2,list1)    #functools.reduce(动作函数,数据)
+     return a + b   #reduce调用的效果就是 1+2+3+4+5
+    #return a * b   #reduce调用的效果就是 1*2*3*4*5
+result1 = functools.reduce(test2,list1)    #functools.reduce(动作函数,序列数据) #把list1里所有的数字累加起来。
 print(result1)      #结果是15
+
+#python内置高阶函数之 filter()
+#iptables的过滤(默认)表就是filter。 这里的filter()函数可以用来过滤序列里的数据。
+def test3(x):
+    return x % 2 == 0        ## = 运算判断需要两个。变量赋值才需要1个 = 。
+result2 = filter(test3,list1)
+print(result2)
+print(list(result2))   #结果是[2, 4] ，在动作函数里把 除2取余为0的数字给过滤出来。
+
+#以下是filter。 lambda表达式的写法。
+print(list(filter((lambda x:x % 2 == 0),list1)))    #filter((lambda 参数列表:表达式),序列数据)
+#filter(动作函数,序列数据)
+#lambda 参数列表:表达式
 
 
 
