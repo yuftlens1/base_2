@@ -17,7 +17,7 @@ import functools   ##想要使用reduce，必须导入functools模块。
 def test2(a,b):
     return a + b
 result1 = functools.reduce(test2,list1)    #functools.reduce(动作函数,数据)
-print(result1)      #结果是15。
+print(result1)      #结果是15
 
 
 
