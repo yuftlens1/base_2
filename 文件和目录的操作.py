@@ -14,4 +14,5 @@ import os
 print(os.listdir('test1'))   #查看当前目录下的test1目录里的内容
 print(os.listdir())          #查看当前目录里的内容。隐藏目录也会显示。
 
+#os.rename 能重命名文件和目录。
 
