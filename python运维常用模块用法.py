@@ -37,8 +37,6 @@ os.path.join(path[,path2[,...]])将多个路径组合后返回，第一个绝对
 os.path.getatime(path) 返回path所指向的文件或者目录的最后存取时间
 os.path.getmtime(path) 返回path所指向的文件或者目录的最后修改时间
 
-
-
 - Shutil模块 -
 
 复制文件的函数居然在os模块中不存在！原因是复制文件并非由操作系统提供的系统调用。理论上讲，我们通过读写文件可以完成文件复制，只不过要多写很多代码。shutil模块提供了copyfile()的函数，你还可以在shutil模块中找到很多实用函数，它们可以看做是os模块的补充。
@@ -158,4 +156,23 @@ print('ok')
 ！！！上面这个深浅拷贝理解的有些问题，研究下指针。
 
 
+'''
+
+'''
+在Windows平台更改pip源为阿里云
+windows下，直接在user目录中创建一个pip目录，如：C:\Users\xx\pip，新建文件pip.ini，内容如下：
+[global]
+trusted-host=mirrors.aliyun.com
+index-url=http://mirrors.aliyun.com/pypi/simple/
+
+linux下如下
+cat ~/.pip/pip.conf
+[global]
+index-url = https://mirrors.aliyun.com/pypi/simple
+
+https://cloud.tencent.com/developer/article/1469490
+
+http://www.yunweipai.com/archives/24809.html
+https://blog.csdn.net/weixin_30786657/article/details/95411223
+https://blog.csdn.net/weixin_33754913/article/details/92264739
 '''
