@@ -16,21 +16,29 @@ class SweetPotato():
             self.cook_status = '熟了'
         elif self.cook_time <= 8:
             self.cook_status = '糊了'
+
+    def add_condiments(self,condiments):
+        self.condiments.append(condiments)
+
     def __str__(self):
-        return f'这个地瓜烤了{self.cook_time}分钟，状态是{self.cook_status}'
+        return f'这个地瓜烤了{self.cook_time}分钟，状态是{self.cook_status}，调理有{self.condiments}'
+
 digua1 = SweetPotato()
 print(digua1)
 
 digua1.cook(2)
+digua1.add_condiments('孜然')
 print(digua1)
 
 digua1.cook(2)
 print(digua1)    #结果 '这个地瓜烤了4分钟，状态是半生不熟'    为什么和上次时间相加了，因为代码里 'self.cook_time += time'
 
 digua1.cook(2)
+digua1.add_condiments('蘑菇')
 print(digua1)
 
 digua1.cook(2)
+digua1.add_condiments('葱')
 print(digua1)
 
 digua1.cook(2)
