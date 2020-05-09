@@ -30,9 +30,9 @@ class B(C,A):          #多继承
         A.__init__(self)
         A.print_info(self)
         # A.print_info2()       ##shifu A 有两个方法，子类B想继承两个方法就得写两个方法，不能放一个方法里面。但是一个方法可以调用多个属性。
-    def shifu_A2(self):
-        A.__init__(self)
-        A.print_info2(self)
+    def shifu_A2(self): ###！！！在子类里面新建方法，然后在新建方法里面调用父类的属性和方法，以达到在子类的对象里可以调用父类的方法及属性
+        A.__init__(self)           #调用指定的父类(A)属性
+        A.print_info2(self)        #调用指定的父类(A)方法
 
 class B_2(B):     #二重继承，类B_2继承子类B
     pass
