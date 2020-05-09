@@ -20,10 +20,15 @@ class B(C,A):          #多继承
     def print_info(self):
         print(self.num)
 
+    def shifu_A(self):
+        C.__init__(self)
+        C.print_info(self)
+
 test1 = B()
 
 test1.print_info()#结论：如果一个类继承了多个父类，优先继承第一个父类的同名属性和方法。如果子类自己有和父类同名的方法或属性优先调用自己的。(自己有了就不坑老了)
 
 print(B.__mro__)  #输出子类的继承关系。
+test1.shifu_A()  
 
 # print(test1.num1)
