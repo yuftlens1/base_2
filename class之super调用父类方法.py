@@ -8,9 +8,20 @@ class A(object):
     def print_info2(self):
         print(self.num2)
 
+        super(A, self).__init__()
+        super(A, self).print_info()##父类A C里面都有print_info这个方法，子类B调用谁的方法在这取决于继承的先后class B(A,C):这里。优先调用第一个。
+                                   #上面说到的 优先调用第一个。 如果要调用全部的添加上面这两行代码
 class C(object):
     def __init__(self):
         self.num = '招式3'
+    def print_info(self):
+        print(self.num)
+        super(C, self).__init__()     #这两行super相当于接力，让所有父类的同名方法都能调用。
+        super(C, self).print_info()
+
+class D(object):
+    def __init__(self):
+        self.num = '大威天龙'
     def print_info(self):
         print(self.num)
 
@@ -27,3 +38,20 @@ class C(object):
         A.__init__(self)           #调用指定的父类(A)属性
         A.print_info2(self)        #调用指定的父类(A)方法
     '''
+
+class B(A,C,D):
+    def all(self):                    # 子类里一次调用所有父类的方法一 (传统模式,)
+#         A.__init__(self)
+#         A.print_info(self)
+#         A.print_info2(self)
+#         C.__init__(self)
+#         C.print_info(self)
+
+        #super(当前类名,self).函数()    # 子类里一次调用所有父类的方法二 (super函数,)
+        super(B,self).__init__()
+        super(B,self).print_info()   #父类A C里面都有print_info这个方法，子类B调用谁的方法在这取决于继承的先后class B(A,C):这里。优先调用第一个。
+        super(B,self).__init__()
+        super(B,self).print_info2()
+
+tudi = B()
+tudi.all()
