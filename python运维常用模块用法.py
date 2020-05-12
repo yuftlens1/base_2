@@ -1,4 +1,8 @@
 '''
+https://docs.python.org/zh-cn/3.7/library/functions.html              #python3.7所有内置函数
+http://note.youdao.com/noteshare?id=0aa49072f0dd7671ad2be18cc746a1cc  #K8s诊断工具：kubectl-debug
+'''
+'''
 在Linux上如果我们要操作文件、目录，可以在命令行下面输入操作系统提供的各种命令来完成，比如dir、cp等命令。
 
 在Python程序中执行这些目录和文件的操作可以使用python提供的os或sys模块。
