@@ -1,17 +1,44 @@
 import paramiko,sys
+def ssh_list(iplist):
+    passwd = open("d:\\passwd.txt", encoding='utf-8')                            #Ö¸¶¨ipÁĞ±íÎÄ¼ş#Ò»¸öipÒ»ĞĞ£¡
+    while True:
+        keylist = (passwd.readline().strip('\n'))
+        if len(keylist) < 1:
+            return
+        try:
+            transport = paramiko.Transport((iplist, 22))
+            transport.connect(username='root', password=keylist)
+            ssh = paramiko.SSHClient()
+            ssh._transport = transport
+        except Exception as keyerr:
+            print(keyerr)
+            continue
+        else:
+            sftp = paramiko.SFTPClient.from_transport(transport)
+            # sftp.get(remotepath='/root/ceph-deploy-ceph.log',localpath='E:/ftp/ceph-deploy-ceph.log')    #ÏÂÔØÎÄ¼ş
+            sftp.put(localpath='E:/ftp/test.txt', remotepath='/root/test.txt')
+            sftp.put(localpath='E:/ftp/ceph-deploy-ceph.log', remotepath='/root/ceph-deploy-ceph.log')
+            stdin, stdout, stderr = ssh.exec_command('ip a | grep inet | grep "192.168."')                 #·şÎñÆ÷¶ËÖ´ĞĞshellÃüÁî
+            print(stdout.read().decode('utf-8'))
+            print(stderr.read().decode('utf-8'))
+            transport.close()
+            passwd.close()
+            return
 
-transport = paramiko.Transport(('192.168.127.129', 22))
-transport.connect(username='root', password='1234')
-ssh = paramiko.SSHClient()
-ssh._transport = transport
-
-stdin, stdout, stderr = ssh.exec_command('v1=`cat /etc/redhat-release` && if [ "$v1" = "CentOS Linux release 7.7.1909" ];then echo "åŒ¹é…";else echo "ä¸åŒ¹é…"; fi && pwd && lsblk')
-print(stdout.read().decode('utf-8'))
-print(stderr.read().decode('utf-8'))
-
-# sftp = paramiko.SFTPClient.from_transport(transport)
-# sftp.get(remotepath='/root/ceph-deploy-ceph.log', localpath='E:/ftp/ceph-deploy-ceph.log')  #å¯ä»¥å‘é€ä¸€ä¸ªè„šæœ¬åˆ¤æ–­æ˜¯ä¸æ˜¯è¯¥å‡çº§
-# sftp.put(localpath='E:/ftp/test.txt', remotepath='/root/test.txt')
-# sftp.put(localpath='E:/ftp/ceph-deploy-ceph.log', remotepath='/root/ceph-deploy-ceph.log')
-transport.close()
+ipfile = open("d:\\ip.txt",encoding='utf-8')                                    #Ö¸¶¨ÃÜÂëÎÄ¼ş#Ò»×éÃÜÂëÒ»ĞĞ
+while True:
+    iprow = (ipfile.readline().strip('\n'))
+    if len(iprow) < 1:
+        break
+    try:
+        ssh_list(iprow)
+    except Exception as iperr:
+        print(iperr)
+        continue
+    else:
+        continue
+ipfile.close()
 sys.exit()
+# break£ºÌø³öËùÔÚµÄµ±Ç°Õû¸öÑ­»·£¬µ½Íâ²ã´úÂë¼ÌĞøÖ´ĞĞ¡£
+# continue£ºÌø³ö±¾´ÎÑ­»·£¬´ÓÏÂÒ»¸öµü´ú¼ÌĞøÔËĞĞÑ­»·£¬ÄÚ²ãÑ­»·Ö´ĞĞÍê±Ï£¬Íâ²ã´úÂë¼ÌĞøÔËĞĞ¡£
+# return£ºÖ±½Ó·µ»Øº¯Êı£¬ËùÓĞ¸Ãº¯ÊıÌåÄÚµÄ´úÂë£¨°üÀ¨Ñ­»·Ìå£©¶¼²»»áÔÙÖ´ĞĞ¡£
