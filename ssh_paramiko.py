@@ -1,6 +1,6 @@
 import paramiko,sys
 def ssh_list(iplist):
-    passwd = open("d:\\passwd.txt", encoding='utf-8')                            #指定ip列表文件#一个ip一行！
+    passwd = open("d:\\passwd.txt", encoding='utf-8')                            #指定密码列表文件#一个ip一行！
     while True:
         keylist = (passwd.readline().strip('\n'))
         if len(keylist) < 1:
@@ -25,7 +25,7 @@ def ssh_list(iplist):
             passwd.close()
             return
 
-ipfile = open("d:\\ip.txt",encoding='utf-8')                                    #指定密码文件#一组密码一行
+ipfile = open("d:\\ip.txt",encoding='utf-8')                                    #指定IP文件#一组密码一行
 while True:
     iprow = (ipfile.readline().strip('\n'))
     if len(iprow) < 1:
