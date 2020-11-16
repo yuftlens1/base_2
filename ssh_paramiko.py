@@ -1,6 +1,12 @@
-import paramiko,sys
+# -*- coding: UTF-8 -*-
+import paramiko,sys,time
+spedate = time.strftime('%Y-%m-%d-%H-%M-%S', time.localtime(time.time()))
+filedate = time.strftime('%Y-%m-%d', time.localtime(time.time()))
+ipfile = open("d:\\ip.txt",encoding='utf-8')                                                                 #æŒ‡å®šIPæ–‡ä»¶#ä¸€ç»„ä¸€è¡Œ
+error = open(f'd:\\ssh\\unaccess_{filedate}.log', 'a')                                                       #é”™è¯¯æ—¥å¿—
 def ssh_list(iplist):
-    passwd = open("d:\\passwd.txt", encoding='utf-8')                            #Ö¸¶¨ÃÜÂëÁĞ±íÎÄ¼ş#Ò»¸öipÒ»ĞĞ£¡
+    passwd = open("d:\\passwd.txt", encoding='utf-8')                                                        #æŒ‡å®šå¯†ç åˆ—è¡¨æ–‡ä»¶#ä¸€ç»„ä¸€è¡Œ
+    access = open(f'd:\\ssh\\access_{filedate}.log', 'a')                                                    #æˆåŠŸæ—¥å¿—
     while True:
         keylist = (passwd.readline().strip('\n'))
         if len(keylist) < 1:
@@ -11,21 +17,20 @@ def ssh_list(iplist):
             ssh = paramiko.SSHClient()
             ssh._transport = transport
         except Exception as keyerr:
-            print(keyerr)
+            print(spedate,f"{iprow}\t",keyerr,file=error)
             continue
         else:
-            sftp = paramiko.SFTPClient.from_transport(transport)
-            # sftp.get(remotepath='/root/ceph-deploy-ceph.log',localpath='E:/ftp/ceph-deploy-ceph.log')    #ÏÂÔØÎÄ¼ş
-            sftp.put(localpath='E:/ftp/test.txt', remotepath='/root/test.txt')
-            sftp.put(localpath='E:/ftp/ceph-deploy-ceph.log', remotepath='/root/ceph-deploy-ceph.log')
-            stdin, stdout, stderr = ssh.exec_command('ip a | grep inet | grep "192.168."')                 #·şÎñÆ÷¶ËÖ´ĞĞshellÃüÁî
-            print(stdout.read().decode('utf-8'))
-            print(stderr.read().decode('utf-8'))
+            # sftp = paramiko.SFTPClient.from_transport(transport)
+            # sftp.get(remotepath='/root/ceph-deploy-ceph.log',localpath='E:/ftp/ceph-deploy-ceph.log')      #ä¸‹è½½æ–‡ä»¶
+            # sftp.put(localpath='E:/ftp/test.txt', remotepath='/root/test.txt')                             #ä¸Šä¼ æ–‡ä»¶
+            # sftp.put(localpath='E:/ftp/ceph-deploy-ceph.log', remotepath='/root/ceph-deploy-ceph.log')     #ä¸Šä¼ æ–‡ä»¶
+            stdin, stdout, stderr = ssh.exec_command('ip a | grep inet | grep "192.168."')                   #æœåŠ¡å™¨ç«¯æ‰§è¡Œshellå‘½ä»¤
+            print(spedate,f"\t{iprow}çš„å¯†ç æ˜¯{keylist}\t",stdout.read().decode('utf-8'),file=access)
+            # print(stderr.read().decode('utf-8'))
             transport.close()
             passwd.close()
+            access.close()
             return
-
-ipfile = open("d:\\ip.txt",encoding='utf-8')                                    #Ö¸¶¨IPÎÄ¼ş#Ò»×éÃÜÂëÒ»ĞĞ
 while True:
     iprow = (ipfile.readline().strip('\n'))
     if len(iprow) < 1:
@@ -33,12 +38,13 @@ while True:
     try:
         ssh_list(iprow)
     except Exception as iperr:
-        print(iperr)
+        print(spedate,iperr,file=error)
         continue
     else:
         continue
 ipfile.close()
+error.close()
 sys.exit()
-# break£ºÌø³öËùÔÚµÄµ±Ç°Õû¸öÑ­»·£¬µ½Íâ²ã´úÂë¼ÌĞøÖ´ĞĞ¡£
-# continue£ºÌø³ö±¾´ÎÑ­»·£¬´ÓÏÂÒ»¸öµü´ú¼ÌĞøÔËĞĞÑ­»·£¬ÄÚ²ãÑ­»·Ö´ĞĞÍê±Ï£¬Íâ²ã´úÂë¼ÌĞøÔËĞĞ¡£
-# return£ºÖ±½Ó·µ»Øº¯Êı£¬ËùÓĞ¸Ãº¯ÊıÌåÄÚµÄ´úÂë£¨°üÀ¨Ñ­»·Ìå£©¶¼²»»áÔÙÖ´ĞĞ¡£
+# breakï¼šè·³å‡ºæ‰€åœ¨çš„å½“å‰æ•´ä¸ªå¾ªç¯ï¼Œåˆ°å¤–å±‚ä»£ç ç»§ç»­æ‰§è¡Œã€‚
+# continueï¼šè·³å‡ºæœ¬æ¬¡å¾ªç¯ï¼Œä»ä¸‹ä¸€ä¸ªè¿­ä»£ç»§ç»­è¿è¡Œå¾ªç¯ï¼Œå†…å±‚å¾ªç¯æ‰§è¡Œå®Œæ¯•ï¼Œå¤–å±‚ä»£ç ç»§ç»­è¿è¡Œã€‚
+# returnï¼šç›´æ¥è¿”å›å‡½æ•°ï¼Œæ‰€æœ‰è¯¥å‡½æ•°ä½“å†…çš„ä»£ç ï¼ˆåŒ…æ‹¬å¾ªç¯ä½“ï¼‰éƒ½ä¸ä¼šå†æ‰§è¡Œã€‚
