@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 import paramiko,sys,time
-spedate = time.strftime('%Y-%m-%d-%H-%M-%S', time.localtime(time.time()))
+spedate = time.strftime('%Y-%m-%d-%H:%M:%S', time.localtime(time.time()))
 filedate = time.strftime('%Y-%m-%d', time.localtime(time.time()))
 ipfile = open("d:\\ip.txt",encoding='utf-8')                                                                 #指定IP文件#一组一行
 error = open(f'd:\\ssh\\unaccess_{filedate}.log', 'a')                                                       #错误日志
@@ -12,7 +12,7 @@ def ssh_list(iplist):
         if len(keylist) < 1:
             return
         try:
-            transport = paramiko.Transport((iplist, 22))
+            transport = paramiko.Transport(iplist, 22)
             transport.connect(username='root', password=keylist)
             ssh = paramiko.SSHClient()
             ssh._transport = transport
@@ -24,7 +24,7 @@ def ssh_list(iplist):
             # sftp.get(remotepath='/root/ceph-deploy-ceph.log',localpath='E:/ftp/ceph-deploy-ceph.log')      #下载文件
             # sftp.put(localpath='E:/ftp/test.txt', remotepath='/root/test.txt')                             #上传文件
             # sftp.put(localpath='E:/ftp/ceph-deploy-ceph.log', remotepath='/root/ceph-deploy-ceph.log')     #上传文件
-            stdin, stdout, stderr = ssh.exec_command('ip a | grep inet | grep "192.168."')                   #服务器端执行shell命令
+            stdin, stdout, stderr = ssh.exec_command('v1=`cat /etc/redhat-release` && if [ "$v1" = "CentOS Linux release 8.2.2004" ];then echo "匹配,无需升级" ;else echo "不匹配" && mkdir /root/test && echo "升级成功";fi')                   #服务器端执行shell命令
             print(spedate,f"\t{iprow}的密码是{keylist}\t",stdout.read().decode('utf-8'),file=access)
             # print(stderr.read().decode('utf-8'))
             transport.close()
